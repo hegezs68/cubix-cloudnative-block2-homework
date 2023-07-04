@@ -1,0 +1,29 @@
+#I work in Vagrant box (Oracle Linux7) where the host port (Windows) 8080 is mapped to Vagrant box 80 
+#thus I have set 8082 for backapp and 8083 for frontapp
+
+#go to root of project
+
+#build backapp image
+docker build --target backapp -t backapp .
+#build frontapp image
+docker build --target frontapp -t frontapp .
+
+#check existing labels in backapp image 
+docker inspect backapp:latest
+#alternative
+docker inspect backapp:latest | grep -A 5 Labels
+#check existing labels in frontapp image
+docker inspect frontapp:latest
+
+#run docker-compose
+docker-compose up
+
+#Postman GET call: http://localhost:8083/frontapp?message=Hello backapp
+
+#log rows
+cubix-cloudnative-block2-homework-frontapp-1  | 2023-06-29T14:18:02.033Z  INFO 1 --- [nio-8083-exec-3] h.c.c.api.controller.FrontappController  : Preparing for calling backapp - message was: Hello backapp
+cubix-cloudnative-block2-homework-frontapp-1  | 2023-06-29T14:18:02.034Z  INFO 1 --- [nio-8083-exec-3] h.c.c.api.controller.FrontappController  : Calling backapp
+cubix-cloudnative-block2-homework-backapp-1   | 2023-06-29T14:18:02.038Z  INFO 1 --- [nio-8082-exec-3] hu.cubix.cloud.api.BackappController     : Request arrived with message Hello backapp
+cubix-cloudnative-block2-homework-backapp-1   | 2023-06-29T14:18:02.038Z  INFO 1 --- [nio-8082-exec-3] hu.cubix.cloud.api.BackappController     : Returning response: BackappResponse[time=2023-06-29T14:18:02.038358548, message=Hello backapp, homeworkOwner=Zsolt Hegedus, hostAddress=172.27.0.2, extraImageData=Cubix training]
+cubix-cloudnative-block2-homework-frontapp-1  | 2023-06-29T14:18:02.044Z  INFO 1 --- [nio-8083-exec-3] h.c.c.api.controller.FrontappController  : Backapp call was successful, response was: BackappResponse[time=2023-06-29T14:18:02.038358548, message=Hello backapp, homeworkOwner=Zsolt Hegedus, hostAddress=172.27.0.2, extraImageData=Cubix training]
+cubix-cloudnative-block2-homework-frontapp-1  | 2023-06-29T14:18:02.046Z  INFO 1 --- [nio-8083-exec-3] h.c.c.api.controller.FrontappController  : Response will be: FrontappResponse[msForReply=4, backappMessage=Hello backapp, frontappHomeworkOwner=Zsolt Hegedus, frontappHostAddress=172.27.0.3, backappHomeworkOwner=Zsolt Hegedus, backappHostAddress=172.27.0.2, doExtraImageDataMatch=true]
