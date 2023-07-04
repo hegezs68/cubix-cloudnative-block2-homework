@@ -1,7 +1,18 @@
 #I work in Vagrant box (Oracle Linux7) where the host port (Windows) 8080 is mapped to Vagrant box 80 
 #thus I have set 8082 for backapp and 8083 for frontapp
 
+#git clone
+https://github.com/hegezs68/cubix-cloudnative-block2-homework
+
 #go to root of project
+
+cd backapp
+./mvnw clean verify
+
+cd ../frontapp
+./mvnw clean verify
+
+cd ..
 
 #build backapp image
 docker build --target backapp -t backapp .
