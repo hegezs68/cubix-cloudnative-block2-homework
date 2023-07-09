@@ -1,3 +1,4 @@
+#Version 2. Fixing the requested parts
 #I work in Vagrant box (Oracle Linux7) where the host port (Windows) 8080 is mapped to Vagrant box 80 
 #thus I have set 8082 for backapp and 8083 for frontapp
 
@@ -15,9 +16,9 @@ cd ../frontapp
 cd ..
 
 #build backapp image
-docker build --target backapp -t backapp .
+docker build -t backapp --build-arg TARGET_PATH=backapp/target/ .
 #build frontapp image
-docker build --target frontapp -t frontapp .
+docker build -t frontapp --build-arg TARGET_PATH=frontapp/target/ .
 
 #check existing labels in backapp image 
 docker inspect backapp:latest

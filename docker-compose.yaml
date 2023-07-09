@@ -1,8 +1,6 @@
 services:
   backapp:
     image: backapp:latest
-    ports:
-    - 8082:8082
 
   frontapp:
     image: frontapp:latest  
